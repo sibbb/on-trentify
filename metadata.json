@@ -1,0 +1,5 @@
+{
+  "name": "On-Trentify",
+  "description": "Finds the 'poor man's version' of anything you input, generates an image of it, and humorously re-brands it as '-on-Trent'.",
+  "requestFramePermissions": []
+}
