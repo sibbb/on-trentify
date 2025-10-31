@@ -12,7 +12,7 @@ export const getPoorMansVersion = async (originalInput: string): Promise<PoorMan
         const prompt = `Analyze the input: "${originalInput}".
 First, determine if the input is a famous person.
 Then, determine the "poor man's version" of the input based on the following rules:
-- If the input is an object or concept, provide a direct, well-known, cheaper alternative (e.g., Rolex -> Casio, Gold -> Silver, Champagne -> Prosecco).
+- If the input is an object, club or concept, provide a direct, well-known, cheaper alternative, if it is a brand, provide the cheaper version of that brand that someone would buy if they couldnt afford the other brand. If it is a sport club, provide the local sportsclub that is not as good as them etc (e.g., Rolex -> Casio, Gold -> Silver, Champagne -> Prosecco, Real Madrid -> Atletico Madrid).
 - If the input is a famous person, provide the name of another well-known person who is widely considered to be an imitator, a follower, or aspires to be like the original person (e.g., Donald Trump -> JD Vance or Viktor Orbán).
 
 Return the result as a JSON object.`;
