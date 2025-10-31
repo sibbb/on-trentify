@@ -90,7 +90,7 @@ const App: React.FC = () => {
                     </div>
                 </div>
                 <p className="text-base sm:text-lg font-bold" style={{ color: '#1E2952' }}>
-                    Finding cheaper knockoffs since whenever Stoke became a thing
+                    Finding the on-Trent version of your favourite thing
                 </p>
             </header>
 
