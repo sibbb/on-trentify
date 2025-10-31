@@ -1,7 +1,3 @@
-import { GoogleGenAI, Type } from "@google/genai";
-
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-
 export interface PoorMansVersionResult {
     poorMansVersion: string;
     isPerson: boolean;
@@ -15,31 +11,37 @@ Then, determine the "poor man's version" of the input based on the following rul
 - If the input is an object, club or concept, provide a direct, well-known, cheaper alternative, if it is a brand, provide the cheaper version of that brand that someone would buy if they couldnt afford the other brand. If it is a sport club, provide the local sportsclub that is not as good as them etc (e.g., Rolex -> Casio, Gold -> Silver, Champagne -> Prosecco, Real Madrid -> Atletico Madrid).
 - If the input is a famous person, provide the name of another well-known person who is widely considered to be an imitator, a follower, or aspires to be like the original person (e.g., Donald Trump -> JD Vance or Viktor Orbán).
 
-Return the result as a JSON object.`;
+Return ONLY a valid JSON object with this exact structure: {"poorMansVersion": "string", "isPerson": boolean}`;
 
-        const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
-            contents: prompt,
-            config: {
-                responseMimeType: "application/json",
-                responseSchema: {
-                    type: Type.OBJECT,
-                    properties: {
-                        poorMansVersion: {
-                            type: Type.STRING,
-                            description: "The name of the poor man's version item or person."
-                        },
-                        isPerson: {
-                            type: Type.BOOLEAN,
-                            description: "True if the original input was a person."
-                        }
+        const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${process.env.IMAGE_API}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                model: 'x-ai/grok-4-fast',
+                messages: [
+                    {
+                        role: 'user',
+                        content: prompt,
                     },
-                    required: ["poorMansVersion", "isPerson"]
-                }
-            }
+                ],
+            }),
         });
 
-        const result = JSON.parse(response.text) as PoorMansVersionResult;
+        if (!response.ok) {
+            throw new Error(`OpenRouter API error: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+
+        if (!data.choices || !data.choices[0]?.message?.content) {
+            throw new Error("AI returned an empty response.");
+        }
+
+        const content = data.choices[0].message.content.trim();
+        const result = JSON.parse(content) as PoorMansVersionResult;
 
         if (!result.poorMansVersion) {
             throw new Error("AI returned an empty response for the concept.");
