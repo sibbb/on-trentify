@@ -1,4 +1,4 @@
-import { GoogleGenAI, Modality, Type } from "@google/genai";
+import { GoogleGenAI, Type } from "@google/genai";
 
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
@@ -57,23 +57,38 @@ export const generateImageOf = async (item: string, isPerson: boolean): Promise<
             ? `A 3d rendered version of ${item}. Do not show a real person, make it a fictional character.`
             : `A high-quality, photorealistic image of: ${item}`;
 
-        const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash-image',
-            contents: {
-                parts: [{ text: prompt }],
+        const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${process.env.IMAGE_API}`,
+                'Content-Type': 'application/json',
             },
-            config: {
-                responseModalities: [Modality.IMAGE],
-            },
+            body: JSON.stringify({
+                model: 'openai/gpt-5-image-mini',
+                messages: [
+                    {
+                        role: 'user',
+                        content: prompt,
+                    },
+                ],
+                modalities: ['image', 'text'],
+            }),
         });
 
-        for (const part of response.candidates[0].content.parts) {
-            if (part.inlineData) {
-                return part.inlineData.data;
-            }
+        if (!response.ok) {
+            throw new Error(`OpenRouter API error: ${response.status} ${response.statusText}`);
         }
 
-        throw new Error("No image data found in the AI response.");
+        const result = await response.json();
+
+        if (result.choices && result.choices[0]?.message?.images && result.choices[0].message.images.length > 0) {
+            const imageUrl = result.choices[0].message.images[0].image_url.url;
+            // Extract base64 data from data URL (format: data:image/png;base64,...)
+            const base64Data = imageUrl.split(',')[1];
+            return base64Data;
+        }
+
+        throw new Error("No image data found in the OpenRouter response.");
     } catch (error) {
         console.error("Error generating image:", error);
         throw new Error("Failed to generate an image from the AI.");
