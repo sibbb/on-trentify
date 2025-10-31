@@ -66,7 +66,7 @@ export const generateImageOf = async (item: string, isPerson: boolean): Promise<
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                model: 'openai/gpt-5-image-mini',
+                model: 'google/gemini-2.5-flash-image-preview',
                 messages: [
                     {
                         role: 'user',
