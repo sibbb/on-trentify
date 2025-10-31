@@ -43,22 +43,34 @@ const App: React.FC = () => {
     }, [originalInput, isLoading]);
 
     return (
-        <div 
-            className="min-h-screen text-white flex flex-col items-center p-4 sm:p-6 md:p-8 font-sans relative"
+        <div
+            className="min-h-screen text-white flex flex-col items-center p-4 sm:p-6 md:p-8 relative"
             style={{
-                backgroundImage: `url('https://upload.wikimedia.org/wikipedia/commons/d/d9/Gladstone_Pottery_Museum_Bottle_Ovens_-_geograph.org.uk_-_1036345.jpg')`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundAttachment: 'fixed'
+                background: 'linear-gradient(180deg, #1a0033 0%, #0d001a 50%, #1a0033 100%)',
+                fontFamily: "'Space Mono', monospace"
             }}
         >
-            <div className="absolute inset-0 bg-gray-900 bg-opacity-80 backdrop-blur-sm"></div>
+            <div
+                className="absolute inset-0 opacity-10"
+                style={{
+                    backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, #ff00ff 2px, #ff00ff 4px)',
+                    pointerEvents: 'none'
+                }}
+            ></div>
             <header className="relative z-10 w-full max-w-2xl text-center mb-8">
-                <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 pb-2">
-                    On-Trentify
+                <h1
+                    className="text-4xl sm:text-5xl md:text-6xl font-black pb-2"
+                    style={{
+                        fontFamily: "'Orbitron', sans-serif",
+                        color: '#ff00ff',
+                        textShadow: '0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff, 0 0 40px #00ffff, 0 0 70px #00ffff, 0 0 80px #00ffff',
+                        letterSpacing: '0.1em'
+                    }}
+                >
+                    ON-TRENTIFY
                 </h1>
-                <p className="text-lg text-gray-300 mt-2">
-                    Find the "poor man's version" of anything and rebrand it.
+                <p className="text-base sm:text-lg mt-2" style={{ color: '#00ffff' }}>
+                    Because knockoffs deserve postcodes too.
                 </p>
             </header>
 
@@ -68,69 +80,137 @@ const App: React.FC = () => {
                         type="text"
                         value={originalInput}
                         onChange={(e) => setOriginalInput(e.target.value)}
-                        placeholder="e.g., Gold, Champagne, A Rolex..."
-                        className="flex-grow bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+                        placeholder="Enter something posh you can't afford..."
+                        className="flex-grow px-4 py-3 text-white transition duration-200 font-bold"
+                        style={{
+                            background: '#0a0015',
+                            border: '2px solid #ff00ff',
+                            borderRadius: '0',
+                            boxShadow: '0 0 10px #ff00ff',
+                            outline: 'none'
+                        }}
                         disabled={isLoading}
                         aria-label="Item to Trentify"
                     />
                     <button
                         type="submit"
                         disabled={isLoading || !originalInput.trim()}
-                        className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-500 disabled:cursor-not-allowed text-white font-bold py-3 px-6 rounded-lg transition duration-200 flex items-center justify-center"
+                        className="font-black py-3 px-6 flex items-center justify-center transition duration-200"
+                        style={{
+                            background: isLoading || !originalInput.trim() ? '#333' : 'linear-gradient(135deg, #ff00ff 0%, #00ffff 100%)',
+                            border: '2px solid #00ffff',
+                            borderRadius: '0',
+                            boxShadow: isLoading || !originalInput.trim() ? 'none' : '0 0 20px #00ffff',
+                            color: '#fff',
+                            fontFamily: "'Orbitron', sans-serif",
+                            letterSpacing: '0.1em',
+                            cursor: isLoading || !originalInput.trim() ? 'not-allowed' : 'pointer'
+                        }}
                     >
-                        {isLoading ? 'Generating...' : 'Trentify!'}
+                        {isLoading ? 'TRENTIFYING...' : 'TRENTIFY!'}
                     </button>
                 </form>
 
-                <div className="w-full bg-gray-800 bg-opacity-70 border border-gray-700 rounded-lg p-6 flex-grow flex items-center justify-center min-h-[400px]">
+                <div
+                    className="w-full p-6 flex-grow flex items-center justify-center min-h-[400px]"
+                    style={{
+                        background: '#0a0015',
+                        border: '3px solid #ff00ff',
+                        borderRadius: '0',
+                        boxShadow: '0 0 20px #ff00ff, inset 0 0 20px rgba(255, 0, 255, 0.1)'
+                    }}
+                >
                     {isLoading ? (
                         <div className="text-center">
                             <Spinner />
-                            <p className="mt-4 text-gray-300">Trentifying your concept...</p>
-                            <p className="mt-2 text-sm text-gray-500">This can take a moment, please wait.</p>
+                            <p className="mt-4 font-bold" style={{ color: '#00ffff' }}>TRENTIFYING IN PROGRESS...</p>
+                            <p className="mt-2 text-sm" style={{ color: '#ff00ff' }}>Please wait while we find something cheaper.</p>
                         </div>
                     ) : error ? (
-                        <div className="text-red-400 text-center">
-                            <p className="font-bold text-lg">Oops! Something went wrong.</p>
+                        <div className="text-center" style={{ color: '#ff00ff' }}>
+                            <p className="font-bold text-lg">Well, that's embarrassing.</p>
                             <p className="mt-2">{error}</p>
+                            <p className="mt-2 text-sm" style={{ color: '#00ffff' }}>Even the budget version broke.</p>
                         </div>
                     ) : generatedImage ? (
                         <div className="text-center w-full">
-                            <div className="relative w-full max-w-lg mx-auto shadow-2xl rounded-lg overflow-hidden">
+                            <div
+                                className="relative w-full max-w-lg mx-auto overflow-hidden"
+                                style={{
+                                    border: '4px solid #00ffff',
+                                    boxShadow: '0 0 30px #00ffff, inset 0 0 20px rgba(0, 255, 255, 0.2)'
+                                }}
+                            >
                                 <img src={generatedImage} alt={poorMansVersion} className="w-full h-auto object-cover aspect-square" />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                                <div
+                                    className="absolute inset-0"
+                                    style={{
+                                        background: 'linear-gradient(180deg, transparent 60%, rgba(0, 0, 0, 0.9) 100%)'
+                                    }}
+                                ></div>
                                 <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-11/12 text-center">
-                                    <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-wider" style={{ textShadow: '2px 2px 8px rgba(0,0,0,0.8)' }}>
-                                        {submittedInput}-on-Trent
+                                    <h2
+                                        className="text-2xl md:text-3xl font-black uppercase tracking-wider"
+                                        style={{
+                                            fontFamily: "'Orbitron', sans-serif",
+                                            color: '#ff00ff',
+                                            textShadow: '0 0 10px #ff00ff, 0 0 20px #ff00ff, 2px 2px 0px #00ffff'
+                                        }}
+                                    >
+                                        {submittedInput}-ON-TRENT
                                     </h2>
                                 </div>
                             </div>
 
-                             <div className="mt-6">
+                            <div className="mt-6">
                                 {!isRevealed ? (
                                     <button
                                         onClick={() => setIsRevealed(true)}
-                                        className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition duration-200"
+                                        className="font-black py-3 px-6 transition duration-200"
+                                        style={{
+                                            background: 'linear-gradient(135deg, #ff00ff 0%, #00ffff 100%)',
+                                            border: '2px solid #00ffff',
+                                            borderRadius: '0',
+                                            boxShadow: '0 0 20px #00ffff',
+                                            color: '#fff',
+                                            fontFamily: "'Orbitron', sans-serif",
+                                            letterSpacing: '0.1em'
+                                        }}
                                         aria-label="Reveal the on-Trent version"
                                     >
-                                        Reveal the 'on-Trent' version
+                                        REVEAL THE TRUTH
                                     </button>
                                 ) : (
-                                    <p className="text-lg text-gray-300 bg-gray-900 bg-opacity-50 rounded-lg p-3 inline-block">
-                                        The 'on-Trent' version of <span className="font-bold text-white">{submittedInput}</span> is: <span className="font-bold text-purple-400 capitalize">{poorMansVersion}</span>
+                                    <p
+                                        className="text-base sm:text-lg p-3 inline-block"
+                                        style={{
+                                            background: '#0a0015',
+                                            border: '2px solid #ff00ff',
+                                            boxShadow: '0 0 10px #ff00ff',
+                                            color: '#00ffff'
+                                        }}
+                                    >
+                                        The budget alternative to <span className="font-bold" style={{ color: '#ff00ff' }}>{submittedInput}</span> is: <span className="font-bold uppercase" style={{ color: '#00ffff' }}>{poorMansVersion}</span>
                                     </p>
                                 )}
                             </div>
                         </div>
                     ) : (
-                        <div className="text-gray-500 text-center">
-                            <p className="text-xl">Enter something to see its "on-Trent" version.</p>
-                            <p className="text-base mt-2">Example: "Gold" becomes an image of silver, branded as "Gold-on-Trent".</p>
+                        <div className="text-center">
+                            <p className="text-xl font-bold mb-3" style={{ color: '#ff00ff' }}>
+                                AWAITING LUXURY INPUT
+                            </p>
+                            <p className="text-base" style={{ color: '#00ffff' }}>
+                                Type in something expensive you'll never own.
+                            </p>
+                            <p className="text-sm mt-4" style={{ color: '#666' }}>
+                                We'll show you the disappointing alternative.
+                            </p>
                         </div>
                     )}
                 </div>
-                 <footer className="relative z-10 text-center text-gray-400 mt-8 text-sm py-4">
-                    <p>Powered by the Gemini API. Inspired by a peculiar British naming convention.</p>
+                <footer className="relative z-10 text-center mt-8 text-xs py-4" style={{ color: '#666' }}>
+                    <p>Made with regret somewhere in the Midlands. Not actually affiliated with Stoke-on-Trent.</p>
                 </footer>
             </main>
         </div>
