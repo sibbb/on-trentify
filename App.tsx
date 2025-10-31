@@ -149,7 +149,7 @@ const App: React.FC = () => {
                                 SCOUTING THE CHAMPIONSHIP...
                             </p>
                             <p className="mt-2 text-sm font-bold" style={{ color: '#1E2952' }}>
-                                Finding you a proper bargain
+                                Finding you a proper bargain (Yes, our loading speed is on-Trent)   
                             </p>
                         </div>
                     ) : error ? (
@@ -221,7 +221,7 @@ const App: React.FC = () => {
                                         }}
                                         aria-label="Reveal the on-Trent version"
                                     >
-                                        SEE THE SQUAD PLAYER
+                                        DID YOU GUESS THE CORRECT ON-TRENT?
                                     </button>
                                 ) : (
                                     <p
@@ -234,7 +234,7 @@ const App: React.FC = () => {
                                             boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
                                         }}
                                     >
-                                        The Championship version of <span style={{ color: '#E03A3E' }}>{submittedInput}</span> is: <span style={{ color: 'white', textTransform: 'uppercase' }}>{poorMansVersion}</span>
+                                        The on-Trent version of <span style={{ color: '#E03A3E' }}>{submittedInput}</span> is: <span style={{ color: 'white', textTransform: 'uppercase' }}>{poorMansVersion}</span>
                                     </p>
                                 )}
                             </div>
