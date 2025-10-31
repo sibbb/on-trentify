@@ -221,7 +221,7 @@ const App: React.FC = () => {
                                         }}
                                         aria-label="Reveal the on-Trent version"
                                     >
-                                        DID YOU GUESS THE CORRECT ON-TRENT?
+                                        CLICK TO SEE THE CORRECT ON-TRENT VERSION
                                     </button>
                                 ) : (
                                     <p
